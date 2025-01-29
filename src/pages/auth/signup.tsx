@@ -1,22 +1,24 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Add eye icons for toggle
 
-const SignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); // State for password visibility
+const SignUp: React.FC = () => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const [nameError, setNameError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState<boolean>(false);
 
   const router = useRouter();
 
@@ -328,13 +330,16 @@ const SignUp = () => {
                     />
                     {/* Password Error Handling */}
                     {passwordError && (
-                      <p className="text-red-500 text-sm">{passwordError}</p>
+                      <p className="text-red-500 text-sm absolute bottom--5 left-0">
+                        {passwordError}
+                      </p>
                     )}
+
                     {/* Lock / Eye Icon */}
                     <span
                       onClick={handlePasswordVisiblityToggle}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
-                      >
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-lg"
+                    >
                       {isPasswordVisible ? (
                         <FaEyeSlash className="text-gray-300 m-1" />
                       ) : (
@@ -357,14 +362,14 @@ const SignUp = () => {
                     />
                     {/* Confirm Password Error Handling */}
                     {confirmPasswordError && (
-                      <p className="text-red-500 text-sm">
+                      <p className="text-red-500 text-sm absolute bottom--5 left-0">
                         {confirmPasswordError}
                       </p>
                     )}
                     <span
                       onClick={handleConfirmPasswordVisiblityToggle}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
-                      >
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-lg"
+                    >
                       {isConfirmPasswordVisible ? (
                         <FaEyeSlash className="text-gray-300 m-1" />
                       ) : (
