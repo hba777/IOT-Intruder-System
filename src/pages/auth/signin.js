@@ -3,11 +3,15 @@ import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
+import {useRouter} from "next/router";
+
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const router = useRouter();
 
   const checkIfUserIsRegistered = async () => {
     // Mocking the user registration check (replace with actual logic)
