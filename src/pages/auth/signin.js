@@ -1,22 +1,70 @@
 import React from "react";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import Logo from "../../../public/logo/logo.svg";
-import LogoDark from "../../../public/logo/logo-dark.svg";
 import Link from "next/link";
 import Image from "next/image";
-
+import { toast, ToastContainer } from "react-toastify";
 const SignIn = () => {
+  const checkIfUserIsRegistered = async () => {
+    // Mocking the user registration check (replace with actual logic)
+    // const userIsRegistered = await fetch("/api/check-registration")
+    //   .then((response) => response.json())
+    //   .then((data) => data.isRegistered);
+
+    return false;
+  };
+
+  const handleSignInButtonClick = async (event) => {
+    event.preventDefault();
+    const isRegistered = await checkIfUserIsRegistered();
+
+    if (isRegistered) {
+      // Navigate to another page if user is registered
+      router.push("/dashboard");
+    } else {
+      // Show a toast message if user is not registered
+      toast.error("You must be registered to proceed.");
+    }
+  };
+
+  const handleGoogleButtonClick = async (event) => {
+    event.preventDefault();
+    const isRegistered = await checkIfUserIsRegistered();
+
+    if (isRegistered) {
+      // Navigate to another page if user is registered
+      router.push("/dashboard");
+    } else {
+      console.log('Error');
+      // Show a toast message if user is not registered
+      toast.error("You must be registered to proceed.");
+    }
+  };
+
   return (
     <>
-      <Breadcrumb pageName="Sign In" />
+      <ToastContainer position="top-right" autoClose={5000} />
+      {/* <Breadcrumb pageName="Sign In" /> */}
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" href="/">
-                <Image className="hidden dark:block" src='/logo/logo.svg' alt="Logo" width={100} height={100} />
-                <Image className="dark:hidden" src='/logo/logo-dark.svg' alt="Logo" width={100} height={100} />
+                <Image
+                  className="hidden dark:block"
+                  src="/logo/logo.svg"
+                  alt="Logo"
+                  width={100}
+                  height={100}
+                />
+                <Image
+                  className="dark:hidden"
+                  src="/logo/logo-dark.svg"
+                  alt="Logo"
+                  width={100}
+                  height={100}
+                />
               </Link>
 
               <p className="2xl:px-20">
@@ -151,7 +199,6 @@ const SignIn = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign In to Intruder System
               </h2>
@@ -190,7 +237,7 @@ const SignIn = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Enter Password
                   </label>
                   <div className="relative">
                     <input
@@ -224,14 +271,19 @@ const SignIn = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    onClick={handleSignInButtonClick}
                     type="submit"
-                    value="Sign In"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                  >
+                    Sign In
+                  </button>
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                <button
+                  onClick={handleGoogleButtonClick}
+                  className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50"
+                >
                   <span>
                     <svg
                       width="20"
