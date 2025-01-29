@@ -1,9 +1,14 @@
-import React from "react";
+import {React, useState} from "react";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   const checkIfUserIsRegistered = async () => {
     // Mocking the user registration check (replace with actual logic)
     // const userIsRegistered = await fetch("/api/check-registration")
@@ -15,8 +20,37 @@ const SignIn = () => {
 
   const handleSignInButtonClick = async (event) => {
     event.preventDefault();
+  
+    // Email and password validation logic
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+  
+    let isValid = true;
+  
+    // Email validation
+    if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+  
+    // Password validation
+    if (!passwordRegex.test(password)) {
+      setPasswordError('Password must be at least 6 characters, with 1 uppercase letter and 1 number');
+      isValid = false;
+    } else {
+      setPasswordError('');
+    }
+  
+    // Proceed only if email and password are valid
+    if (!isValid) {
+      return; // If validation fails, stop the process
+    }
+  
+    // Proceed with registration check if inputs are valid
     const isRegistered = await checkIfUserIsRegistered();
-
+  
     if (isRegistered) {
       // Navigate to another page if user is registered
       router.push("/dashboard");
@@ -25,6 +59,7 @@ const SignIn = () => {
       toast.error("You must be registered to proceed.");
     }
   };
+  
 
   const handleGoogleButtonClick = async (event) => {
     event.preventDefault();
@@ -212,9 +247,10 @@ const SignIn = () => {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
+                    {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -243,9 +279,10 @@ const SignIn = () => {
                     <input
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
+                    {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
